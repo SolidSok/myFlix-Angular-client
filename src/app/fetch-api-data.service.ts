@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/internal/operators';
+import { catchError } from 'rxjs/operators';
 import {
   HttpClient,
   HttpHeaders,
@@ -10,6 +10,12 @@ import { map } from 'rxjs/operators';
 
 //Declaring the api url that will provide data for the client app
 const apiUrl = 'https://sokflix-herokupapp.com';
+const token = localStorage.getItem('token');
+const username = localStorage.getItem('user');
+const headers = {
+  headers: new HttpHeaders({ Authorization: 'Bearer ' + token }),
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,43 +32,74 @@ export class UserRegistrationService {
       .pipe(catchError(this.handleError));
   }
   //user login
+  public userLogin(userDetails: any): Observable<any> {
+    console.log(userDetails);
+    return this.http
+      .post(apiUrl + 'login', userDetails)
+      .pipe(catchError(this.handleError));
+  }
 
   //get all movies
   getAllMovies(): Observable<any> {
-    const token = localStorage.getItem('token');
+    // Get Authorization token stored in local storage
     return this.http
-      .get(apiUrl + 'movies', {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token,
-        }),
-      })
+      .get(apiUrl + 'movies', headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // get one movie
-  getOneMovie(): Observable<any> {
-    const token = localStorage.getItem('token');
+  getOneMovie(Title: any): Observable<any> {
     return this.http
-      .get(apiUrl + `movies/${title}`, {
-        headers: new HttpHeaders({ Authorization: 'Bearer' + token }),
-      })
+      .get(apiUrl + `movies/${Title}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // get director
-
+  getDirector(Name: any): Observable<any> {
+    return this.http
+      .get(apiUrl + `directors/${Name}`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   //get genre
-
+  getGenre(Name: any): Observable<any> {
+    return this.http
+      .get(apiUrl + `genres/${Name}`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   // get user
-
+  getUser(): Observable<any> {
+    return this.http
+      .get(apiUrl + `users/${username}`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   // get favorite movies for a user
-
+  getFavoriteMovies(): Observable<any> {
+    return this.http
+      .get(apiUrl + `users/${username}/movies`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   // add a movie to favorites
-
+  addFavorite(movieID: string): Observable<any> {
+    return this.http
+      .post(apiUrl + `users/${username}/movies/${movieID}`, {}, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   // edit user
-
+  editUser(updateDetails: any): Observable<any> {
+    return this.http
+      .put(apiUrl + `users/${username}`, updateDetails, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   // delete user
-
+  deleteUser(): Observable<any> {
+    return this.http
+      .delete(apiUrl + `users/${username}`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   // delete a movie from favorites
-
+  deleteFavorite(movieID: string): Observable<any> {
+    return this.http
+      .delete(apiUrl + `users/${username}/movies/${movieID}`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
   // Non-typed response extraction
   private extractResponseData(res: Response): any {
     const body = res;
@@ -77,6 +114,8 @@ export class UserRegistrationService {
         `Error Status code ${error.status}, ` + `Error body is: ${error.error}`
       );
     }
-    return throwError('Something bad happened; please try again later.');
+    return throwError(
+      () => new Error('Something bad happened; please try again later.')
+    );
   }
 }
