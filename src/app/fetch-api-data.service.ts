@@ -43,61 +43,65 @@ export class UserRegistrationService {
   getAllMovies(): Observable<any> {
     // Get Authorization token stored in local storage
     return this.http
-      .get(apiUrl + 'movies', headers)
+      .get<Response>(apiUrl + 'movies', headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // get one movie
   getOneMovie(Title: any): Observable<any> {
     return this.http
-      .get(apiUrl + `movies/${Title}`, headers)
+      .get<Response>(apiUrl + `movies/${Title}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // get director
   getDirector(Name: any): Observable<any> {
     return this.http
-      .get(apiUrl + `directors/${Name}`, headers)
+      .get<Response>(apiUrl + `directors/${Name}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   //get genre
   getGenre(Name: any): Observable<any> {
     return this.http
-      .get(apiUrl + `genres/${Name}`, headers)
+      .get<Response>(apiUrl + `genres/${Name}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // get user
   getUser(): Observable<any> {
     return this.http
-      .get(apiUrl + `users/${username}`, headers)
+      .get<Response>(apiUrl + `users/${username}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // get favorite movies for a user
   getFavoriteMovies(): Observable<any> {
     return this.http
-      .get(apiUrl + `users/${username}/movies`, headers)
+      .get<Response>(apiUrl + `users/${username}/movies`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // add a movie to favorites
   addFavorite(movieID: string): Observable<any> {
     return this.http
-      .post(apiUrl + `users/${username}/movies/${movieID}`, {}, headers)
+      .post<Response>(
+        apiUrl + `users/${username}/movies/${movieID}`,
+        {},
+        headers
+      )
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // edit user
   editUser(updateDetails: any): Observable<any> {
     return this.http
-      .put(apiUrl + `users/${username}`, updateDetails, headers)
+      .put<Response>(apiUrl + `users/${username}`, updateDetails, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // delete user
   deleteUser(): Observable<any> {
     return this.http
-      .delete(apiUrl + `users/${username}`, headers)
+      .delete<Response>(apiUrl + `users/${username}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // delete a movie from favorites
   deleteFavorite(movieID: string): Observable<any> {
     return this.http
-      .delete(apiUrl + `users/${username}/movies/${movieID}`, headers)
+      .delete<Response>(apiUrl + `users/${username}/movies/${movieID}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // Non-typed response extraction
