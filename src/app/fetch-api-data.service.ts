@@ -24,6 +24,8 @@ export class FetchApiDataService {
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {}
 
+  // User Section //
+
   // Making the api call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
@@ -38,6 +40,26 @@ export class FetchApiDataService {
       .post(apiUrl + 'login', userDetails)
       .pipe(catchError(this.handleError));
   }
+  // get user
+  getUser(): Observable<any> {
+    return this.http
+      .get<Response>(apiUrl + `users/${username}`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
+  // edit user
+  editUser(updateDetails: any): Observable<any> {
+    return this.http
+      .put<Response>(apiUrl + `users/${username}`, updateDetails, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
+  // delete user
+  deleteUser(): Observable<any> {
+    return this.http
+      .delete<Response>(apiUrl + `users/${username}`, headers)
+      .pipe(map(this.extractResponseData), catchError(this.handleError));
+  }
+
+  // Movie Section //
 
   //get all movies
   getAllMovies(): Observable<any> {
@@ -64,12 +86,7 @@ export class FetchApiDataService {
       .get<Response>(apiUrl + `genres/${Name}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
-  // get user
-  getUser(): Observable<any> {
-    return this.http
-      .get<Response>(apiUrl + `users/${username}`, headers)
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
-  }
+
   // get favorite movies for a user
   getFavoriteMovies(): Observable<any> {
     return this.http
@@ -86,24 +103,13 @@ export class FetchApiDataService {
       )
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
-  // edit user
-  editUser(updateDetails: any): Observable<any> {
-    return this.http
-      .put<Response>(apiUrl + `users/${username}`, updateDetails, headers)
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
-  }
-  // delete user
-  deleteUser(): Observable<any> {
-    return this.http
-      .delete<Response>(apiUrl + `users/${username}`, headers)
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
-  }
   // delete a movie from favorites
   deleteFavorite(movieID: string): Observable<any> {
     return this.http
       .delete<Response>(apiUrl + `users/${username}/movies/${movieID}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
+
   // Non-typed response extraction
   private extractResponseData(res: Response): any {
     const body = res;
