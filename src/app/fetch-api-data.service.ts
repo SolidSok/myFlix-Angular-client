@@ -9,7 +9,7 @@ import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 //Declaring the api url that will provide data for the client app
-const apiUrl = 'https://sokflix-herokupapp.com';
+const apiUrl = 'https://sokflix.herokuapp.com/';
 const token = localStorage.getItem('token');
 const username = localStorage.getItem('user');
 const headers = {
@@ -90,7 +90,7 @@ export class FetchApiDataService {
   // get favorite movies for a user
   getFavoriteMovies(): Observable<any> {
     return this.http
-      .get<Response>(apiUrl + `users/${username}/movies`, headers)
+      .get<Response>(apiUrl + `users/${username}`, headers)
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
   // add a movie to favorites

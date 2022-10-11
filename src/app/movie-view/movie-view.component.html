@@ -1,14 +1,12 @@
 <mat-card>
-  <mat-card-title>{{ data.Name }}</mat-card-title>
+  <mat-card-title>{{ data.Title }}</mat-card-title>
   <br />
   <mat-dialog-content>
-    <b>Birthday: </b> {{ data.Birthday | date: "longDate" }}
-    <br />
-    <b>Bio: </b> {{ data.Bio }}
+    <b>Description: </b> {{ data.Description }}
   </mat-dialog-content>
   <mat-card-actions>
     <button
-      class="director-close-button"
+      class="synopsis-close-button"
       mat-storked-button
       aria-label="Close director details"
       mat-dialog-close

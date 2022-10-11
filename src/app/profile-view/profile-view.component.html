@@ -1,1 +1,25 @@
-<p>profile-view works!</p>
+<app-navbar></app-navbar>
+<div class="profile-page">
+  <mat-card class="profile-card">
+    <mat-card-header class="profile-card-header">
+      <mat-card-title>Profile Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="profile-card-content">
+      <p><b>Username: </b> {{ user.Username }}</p>
+      <p><b>Email: </b> {{ user.Email }}</p>
+      <p><b>Birthday: </b> {{ user.Birthday }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        (click)="openUpdateUserDialog()"
+        color="primary"
+      >
+        Update Profile
+      </button>
+      <button mat-raised-button (click)="deleteUser()" color="warn">
+        Delete Your Account
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

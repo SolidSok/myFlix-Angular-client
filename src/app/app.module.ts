@@ -24,10 +24,12 @@ import { DirectorViewComponent } from './director-view/director-view.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UpdateUserViewComponent } from './update-user-view/update-user-view.component';
+import { MovieViewComponent } from './movie-view/movie-view.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
   { path: 'movies', component: MovieCardComponent },
+  { path: 'profile', component: ProfileViewComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
 ];
 @NgModule({
@@ -42,6 +44,7 @@ const appRoutes: Routes = [
     ProfileViewComponent,
     NavbarComponent,
     UpdateUserViewComponent,
+    MovieViewComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
